@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -19,18 +21,16 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          mkdir build
-          cd build
-          qmake ../kitsas/kitsas.pro "CONFIG += release"
+          qmake kitsasproject.pro "CONFIG += release"
           mingw32-make -j 2
 
       - name: Deploy Dependencies
         shell: cmd
         run: |
-          windeployqt --release --no-translations build/release/kitsas.exe
+          windeployqt --release --no-translations kitsas/release/kitsas.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Kitsas-Windows-Portable
-          path: build/release/
+          path: kitsas/release/
