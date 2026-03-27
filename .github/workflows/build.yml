@@ -13,10 +13,12 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '5.15.2'
+          version: '6.6.3'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_mingw81'
+          arch: 'win64_mingw'
+          # Lisätään PDF ja WebEngine moduulit erikseen jos tarpeen
+          modules: 'qtpdf qtwebengine'
 
       - name: Build
         shell: cmd
