@@ -22,8 +22,8 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_mingw'
-          # Kokeillaan ilman moduulilistausta, aqt hakee ne usein automaattisesti
           install-deps: 'true'
+          modules: 'qtpdf qtpdfwidgets qtwebengine qtcore5compat'
 
       - name: Build
         shell: cmd
