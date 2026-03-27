@@ -1,0 +1,36 @@
+name: Build Kitsas Windows
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw81'
+
+      - name: Build
+        shell: cmd
+        run: |
+          mkdir build
+          cd build
+          qmake ../kitsas/kitsas.pro "CONFIG += release"
+          mingw32-make -j 2
+
+      - name: Deploy Dependencies
+        shell: cmd
+        run: |
+          windeployqt --release --no-translations build/release/kitsas.exe
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kitsas-Windows-Portable
+          path: build/release/
