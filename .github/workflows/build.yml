@@ -10,6 +10,11 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
@@ -17,8 +22,8 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_mingw'
-          # Lisätään PDF ja WebEngine moduulit erikseen jos tarpeen
-          modules: 'qtpdf qtwebengine'
+          # Kokeillaan ilman moduulilistausta, aqt hakee ne usein automaattisesti
+          install-deps: 'true'
 
       - name: Build
         shell: cmd
